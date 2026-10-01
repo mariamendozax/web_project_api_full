@@ -1,0 +1,38 @@
+{
+  "name": "web_project_around_express",
+  "version": "1.0.0",
+  "description": "Desplegar backend al proyecto.",
+  "keywords": [
+    "web_project_around",
+    "node.js",
+    "express"
+  ],
+  "homepage": "https://github.com/mariamendozax/web_project_around_express#readme",
+  "bugs": {
+    "url": "https://github.com/mariamendozax/web_project_around_express/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariamendozax/web_project_around_express.git"
+  },
+  "license": "ISC",
+  "author": "Maria Mendoza",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.10.0"
+  }
+}
