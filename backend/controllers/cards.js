@@ -34,18 +34,30 @@ module.exports.createCard = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndDelete(req.params.cardId)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       const error = new Error("Tarjeta no encontrada");
       error.statusCode = 404;
       throw error;
     })
-    .then((card) => res.send(card))
+    .then((card) => {
+      if (card.owner.toString() !== req.user._id) {
+        const error = new Error("No tienes permiso para eliminar esta tarjeta");
+        error.statusCode = 403;
+        throw error;
+      }
+      return card
+        .deleteOne()
+        .then(() => res.send({ message: "Tarjeta eliminada" }));
+    })
     .catch((err) => {
       if (err.name === "CastError") {
         return res
           .status(ERROR_CODE_BAD_REQUEST)
           .send({ message: "ID de tarjeta no válido" });
+      }
+      if (err.statusCode === 403) {
+        return res.status(403).send({ message: err.message });
       }
       if (err.statusCode === 404) {
         return res.status(ERROR_CODE_NOT_FOUND).send({ message: err.message });

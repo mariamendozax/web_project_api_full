@@ -1,0 +1,114 @@
+.header {
+  min-height: 120px;
+  font-family: "Inter", Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 45px 0 41px;
+}
+
+.header__logo {
+  width: 173px;
+  height: 33px;
+  object-fit: contain;
+}
+
+.header__email,
+.header__link {
+  font-size: 18px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.header__button {
+  background-color: transparent;
+  color: #a9a9a9;
+  border: none;
+  margin-left: 20px;
+}
+
+.header__menu,
+.header__hamburger {
+  display: none;
+}
+
+@media screen and (max-width: 720px) {
+  .header {
+    display: flex;
+    flex-direction: column-reverse;
+    border-bottom: none;
+    width: 100%;
+  }
+
+  .header__container {
+    padding: 27px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  }
+
+  .header__user {
+    display: none;
+  }
+
+  .header__menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.3s ease,
+      padding 0.3s ease;
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+    padding: 0;
+  }
+
+  .header__menu_opened {
+    max-height: 160px;
+    padding: 40px 0 40px;
+  }
+
+  .header__menu .header__email {
+    font-size: 18px;
+    line-height: 22px;
+    color: #fff;
+    margin: 0;
+  }
+
+  .header__menu .header__button_type_logout {
+    font-size: 18px;
+    line-height: 22px;
+    color: #a9a9a9;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .header__hamburger {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background: transparent url("../images/phoneButton.png");
+    border: none;
+    cursor: pointer;
+  }
+
+  .header__hamburger_active {
+    background-image: url("../images/close.svg");
+  }
+}

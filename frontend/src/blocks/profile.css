@@ -1,0 +1,174 @@
+.profile {
+  font-family: "Inter", Arial, sans-serif;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 40px 0 32px;
+}
+
+.profile__title {
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  grid-area: title;
+  margin: 0;
+}
+
+.profile__title-container {
+  display: grid;
+  grid-template-areas:
+    "title button"
+    "description description";
+  grid-template-columns: minmax(auto, 373px) auto;
+  grid-gap: 7px 17px;
+  margin-left: 20px;
+}
+
+.profile__description {
+  font-size: 18px;
+  line-height: 22px;
+  grid-area: description;
+  margin: 0;
+  margin-left: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 373px;
+}
+
+.profile__image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-position: center;
+  margin-right: 29px;
+}
+
+.profile__avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profile__avatar-edit-button {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.6) url("../images/Vector.svg") center no-repeat;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.profile__avatar-container:hover .profile__avatar-edit-button {
+  opacity: 1;
+}
+
+.profile__add-button {
+  width: 150px;
+  height: 50px;
+  background: transparent url("../images/add-icon.svg") center no-repeat;
+  background-size: 22px;
+  border-radius: 2px;
+  border: 2px solid #fff;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+}
+
+.profile__edit-button {
+  width: 24px;
+  height: 24px;
+  background: transparent url("../images/edit-icon.svg") center no-repeat;
+  background-size: 10px 10px;
+  border: 1px solid #fff;
+  grid-area: button;
+  align-self: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 959px) {
+  .profile .profile__info {
+    grid-template-columns: auto;
+    grid-template-areas: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 42px 0 36px;
+  }
+
+  .profile__image {
+    margin-right: 0;
+  }
+
+  .profile__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 26px 0 36px;
+    width: 60%;
+    max-width: 282px;
+  }
+
+  .profile__title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .profile__title {
+    margin: 0;
+    font-size: 22px;
+    line-height: 22px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .profile__edit-button {
+    max-width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .profile__description {
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0;
+    text-align: center;
+  }
+
+  .profile__add-button {
+    width: 100%;
+    max-width: 282px;
+    margin: 0 auto;
+    background-size: 16px 16px;
+  }
+}

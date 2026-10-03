@@ -7,22 +7,28 @@ const {
 } = require("../utils/statusCode");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../utils/config");
 
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
 
   User.findOne({ email })
+    .select("+password")
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error("Correo o contraseña incorrectos"));
+        const error = new Error("Correo o contraseña incorrectos");
+        error.statusCode = 401;
+        throw error;
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(new Error("Correo o contraseña incorrectos"));
+          const error = new Error("Correo o contraseña incorrectos");
+          error.statusCode = 401;
+          throw error;
         }
 
-        const token = jwt.sign({ _id: user._id }, "clave-secreta-temporal", {
+        const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
           expiresIn: "7d",
         });
 
@@ -30,7 +36,30 @@ module.exports.login = (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(401).send({ message: err.message });
+      if (err.statusCode === 401) {
+        return res.status(401).send({ message: err.message });
+      }
+      return res
+        .status(ERROR_CODE_DEFAULT)
+        .send({ message: "Ha ocurrido un error en el servidor" });
+    });
+};
+
+module.exports.getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
+    .orFail(() => {
+      const error = new Error("Usuario no encontrado");
+      error.statusCode = 404;
+      throw error;
+    })
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.statusCode === 404) {
+        return res.status(ERROR_CODE_NOT_FOUND).send({ message: err.message });
+      }
+      return res
+        .status(ERROR_CODE_DEFAULT)
+        .send({ message: "Ha ocurrido un error en el servidor" });
     });
 };
 
@@ -73,7 +102,11 @@ module.exports.createUser = (req, res) => {
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
-    .then((user) => res.status(SUCCESS_CODE_CREATED).send(user))
+    .then((user) => {
+      const userData = user.toObject();
+      delete userData.password;
+      return res.status(SUCCESS_CODE_CREATED).send(userData);
+    })
     .catch((err) => {
       if (err.name === "ValidationError") {
         return res
