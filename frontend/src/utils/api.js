@@ -9,11 +9,14 @@ class Api {
       "Content-Type": "application/json",
     };
   }
+  _;
   _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
+    if (res.ok) return res.json();
+    return res.json().then((data) => {
+      const error = new Error(data.message || `Error: ${res.status}`);
+      error.status = res.status;
+      return Promise.reject(error);
+    });
   }
 
   getUserInfo() {
@@ -56,9 +59,9 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
+  changeLikeCardStatus(cardId, like) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: isLiked ? "PUT" : "DELETE",
+      method: like ? "PUT" : "DELETE",
       headers: this._getHeaders(),
     }).then(this._checkResponse);
   }
@@ -73,7 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "http://localhost:5173",
+  baseUrl: "http://localhost:3000",
 });
 
 export default api;

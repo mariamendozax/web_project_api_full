@@ -1,17 +1,24 @@
+import { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import ImagePopup from "../ImagePopup/ImagePopup";
 import RemoveCard from "../RemoveCard/RemoveCard";
 
 export default function Card(props) {
-  const { name, link, isLiked } = props.card;
+  const { name, link, likes } = props.card;
   const { onOpenPopup, onCardLike, onCardDelete } = props;
+  const { currentUser } = useContext(CurrentUserContext);
   const imagePopup = {
     children: <ImagePopup card={props.card} />,
   };
+
+  const isLiked = likes.includes(currentUser._id);
+
   const cardLikeButtonClassName = `card__like-button ${
     isLiked ? "card__like-button_is-active" : ""
   }`;
+
   function handleLikeClick() {
-    onCardLike(props.card);
+    onCardLike(props.card, isLiked);
   }
 
   function handleDeleteClick() {
@@ -42,7 +49,9 @@ export default function Card(props) {
           type="button"
           className={cardLikeButtonClassName}
           onClick={handleLikeClick}
-        />
+        >
+          <span className="card__like-count">{likes.length}</span>{" "}
+        </button>
       </div>
     </li>
   );

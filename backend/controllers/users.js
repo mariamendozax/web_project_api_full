@@ -1,31 +1,29 @@
 const User = require("../models/user");
-const {
-  ERROR_CODE_BAD_REQUEST,
-  ERROR_CODE_NOT_FOUND,
-  ERROR_CODE_DEFAULT,
-  SUCCESS_CODE_CREATED,
-} = require("../utils/statusCode");
+const { SUCCESS_CODE_CREATED } = require("../utils/statusCode");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../utils/config");
+const {
+  NotFoundError,
+  ForbiddenError,
+  UnauthorizedError,
+  BadRequestError,
+} = require("../utils/error");
+const errorHandler = require("../middlewares/errorHandler");
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findOne({ email })
     .select("+password")
     .then((user) => {
       if (!user) {
-        const error = new Error("Correo o contraseña incorrectos");
-        error.statusCode = 401;
-        throw error;
+        throw new UnauthorizedError("Correo o contraseña incorrectos");
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          const error = new Error("Correo o contraseña incorrectos");
-          error.statusCode = 401;
-          throw error;
+          throw new UnauthorizedError("Correo o contraseña incorrectos");
         }
 
         const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
@@ -35,14 +33,7 @@ module.exports.login = (req, res) => {
         return res.send({ token });
       });
     })
-    .catch((err) => {
-      if (err.statusCode === 401) {
-        return res.status(401).send({ message: err.message });
-      }
-      return res
-        .status(ERROR_CODE_DEFAULT)
-        .send({ message: "Ha ocurrido un error en el servidor" });
-    });
+    .catch(next);
 };
 
 module.exports.getCurrentUser = (req, res) => {

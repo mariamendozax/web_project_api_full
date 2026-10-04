@@ -83,6 +83,7 @@ function App() {
   function handleClosePopup() {
     setPopup(null);
     setIsInfoTooltipOpen(false);
+    setErrorMessage("");
   }
 
   useEffect(() => {
@@ -163,10 +164,8 @@ function App() {
       .catch((error) => console.error(error));
   }
 
-  async function handleCardLike(card) {
-    const isLiked = card.isLiked;
-
-    await api
+  function handleCardLike(card, isLiked) {
+    api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
@@ -178,8 +177,8 @@ function App() {
       .catch((error) => console.error(error));
   }
 
-  async function handleCardDelete(card) {
-    await api
+  function handleCardDelete(card) {
+    api
       .deleteCard(card._id)
       .then(() => {
         setCards((state) =>
@@ -187,7 +186,12 @@ function App() {
         );
         handleClosePopup();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        setPopup(null);
+        setErrorMessage(error.message);
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
+      });
   }
 
   return (
