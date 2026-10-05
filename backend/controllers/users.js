@@ -104,7 +104,7 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: true, runValidators: true },
+    { returnDocument: 'after', runValidators: true },
   )
     .orFail(() => {
       throw new NotFoundError('Usuario no encontrado');
@@ -123,7 +123,7 @@ module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar },
-    { new: true, runValidators: true },
+    { returnDocument: 'after', runValidators: true },
   )
     .orFail(() => {
       throw new NotFoundError('Usuario no encontrado');

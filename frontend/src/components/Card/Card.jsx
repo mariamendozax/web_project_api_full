@@ -44,14 +44,16 @@ export default function Card(props) {
       />
       <div className="card__description">
         <h2 className="card__title">{name}</h2>
+        <div className="card__like-container">
         <button
           aria-label="Like card"
           type="button"
           className={cardLikeButtonClassName}
           onClick={handleLikeClick}
         >
-          <span className="card__like-count">{likes.length}</span>{" "}
         </button>
+        <span className="card__like-count">{likes.length}</span>{" "}
+      </div>
       </div>
     </li>
   );
