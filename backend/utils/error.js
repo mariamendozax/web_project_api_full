@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 class BadRequestError extends Error {
   constructor(message) {
     super(message);
@@ -26,9 +28,17 @@ class NotFoundError extends Error {
   }
 }
 
+class ConflictError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 409;
+  }
+}
+
 module.exports = {
   BadRequestError,
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,
+  ConflictError,
 };
