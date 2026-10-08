@@ -52,7 +52,7 @@ export default function Card(props) {
           onClick={handleLikeClick}
         >
         </button>
-        <span className="card__like-count">{likes.length}</span>{" "}
+        <span className="card__like-count">{likes.length}</span>
       </div>
       </div>
     </li>
