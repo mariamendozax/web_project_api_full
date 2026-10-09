@@ -3,6 +3,7 @@
 
 *** Tabla de Contenidos ***
 + Sobre el Proyecto
++ Dominios
 + Arquitectura y Estructura
 + Tecnologías Utilizadas
 + Funcionalidades Principales
@@ -16,6 +17,11 @@ Around The U.S. nació como una aplicación de red social interactiva en JS vani
 Frontend (web_project_around_react): Refactorizado desde cero con React y Vite, transformando la manipulación manual del DOM en una arquitectura declarativa basada en componentes, hooks y contexto global.
 
 Backend (web_project_around_express): Una API RESTful construida con Node.js, Express y MongoDB, encargada de gestionar usuarios, autenticación, autorización y tarjetas.
+
+## Dominios
+- Frontend: https://webproj.thepresenttraveller.com
+- Frontend (www): https://www.webproj.thepresenttraveller.com
+- API: https://api.webproj.thepresenttraveller.com
 
 *** Arquitectura y Estructura ***
 El repositorio conecta la interfaz de usuario con la API del servidor mediante una comunicación fluida:

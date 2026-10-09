@@ -103,7 +103,7 @@ function App() {
           setToken("");
         });
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (loggedIn) {
