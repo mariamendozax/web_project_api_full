@@ -22,12 +22,6 @@ app.use(express.json());
 app.use(cors());
 app.use(requestLogger);
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('El servidor va a caer');
-  }, 0);
-});
-
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateSignup, createUser);
 
